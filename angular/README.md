@@ -1,5 +1,7 @@
 # Angular - Docker
 
+![Docker Cloud Automated build][docker-automated-build-badge] [![Docker Cloud Build Status][docker-build-badge]][docker-build-url]
+
 This is an image to build a container for Angular workspace.
 
 ## Quick Start
@@ -37,3 +39,7 @@ Running `Docker Compose` command.
 ```docker-compose
 docker-compose up -d
 ```
+
+[docker-automated-build-badge]: https://img.shields.io/docker/cloud/automated/naratipud/angular
+[docker-build-badge]: https://img.shields.io/docker/cloud/build/naratipud/angular
+[docker-build-url]: https://hub.docker.com/r/naratipud/angular/builds
