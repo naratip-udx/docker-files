@@ -1,0 +1,47 @@
+version: "3.9"
+
+services:
+  sonar-db:
+    image: postgres:13.1
+    restart: on-failure
+    environment:
+      POSTGRES_USER: sonarqube
+      POSTGRES_PASSWORD: P@ssw0rd
+      POSTGRES_DB: sonar
+      TZ: GMT+7
+      PGTZ: GMT+7
+    volumes:
+      - sonar_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    command: ["postgres", "-c", "log_statement=all", "-c", "log_destination=stderr"]
+    networks:
+      - sonar-network
+
+  sonarqube:
+    image: sonarqube:8.9-community
+    environment:
+      SONAR_JDBC_URL: jdbc:postgresql://sonar-db:5432/sonar
+      SONAR_JDBC_USERNAME: sonarqube
+      SONAR_JDBC_PASSWORD: P@ssw0rd
+    volumes:
+      - sonarqube_data:/opt/sonarqube/data
+      - sonarqube_conf:/opt/sonarqube/conf
+      - sonarqube_logs:/opt/sonarqube/logs
+      - sonarqube_extensions:/opt/sonarqube/extensions
+    ports:
+      - "9000:9000"
+    depends_on:
+      - sonar-db
+    networks:
+      - sonar-network
+
+volumes:
+  sonar_data:
+  sonarqube_data:
+  sonarqube_conf:
+  sonarqube_logs:
+  sonarqube_extensions:
+
+networks:
+  sonar-network:
